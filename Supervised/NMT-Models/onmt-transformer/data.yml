@@ -1,0 +1,9 @@
+model_dir: transformer/
+
+data: 
+    train_features_file: Data/src-train.txt
+    train_labels_file: Data/trgt-train.txt
+    eval_features_file: Data/src-val.txt
+    eval_labels_file: Data/trgt-val.txt
+    source_vocabulary: Data/src-vocab.txt
+    target_vocabulary: Data/trgt-vocab.txt
