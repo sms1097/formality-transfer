@@ -1,0 +1,19 @@
+model_dir: backtranslation/
+
+data: 
+    train_features_file: Data/src-train.txt
+    train_labels_file: Data/tgt-train.txt
+    eval_features_file: Data/src-val.txt
+    eval_labels_file: Data/tgt-val.txt
+    source_vocabulary: Data/src-vocab.txt
+    target_vocabulary: Data/tgt-vocab.txt
+
+params:
+    beam_width: 5
+    sampling_topk: 10
+    sampling_temperature: 1
+    decoding_subword_token: _
+    decoding_noise: 
+        - dropout: 0.1
+        - replacement: [0.1, <<unk>>]
+        - permutation: 3

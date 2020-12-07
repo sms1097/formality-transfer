@@ -1,0 +1,39 @@
+model_dir: crf-pos-transformer/
+
+data: 
+    train_features_file: 
+        - Data/src-train.txt
+        - Data/pos-train.txt
+    train_labels_file: 
+        - Data/trgt-train.txt
+    eval_features_file: 
+        - Data/src-val.txt
+        - Data/pos-val.txt
+    eval_labels_file: 
+        - Data/trgt-val.txt
+    source_1_vocabulary: Data/src-vocab.txt
+    source_2_vocabulary: Data/pos-vocab.txt
+    target_vocabulary: Data/trgt-vocab.txt
+    
+params:
+    beam_width: 10
+    optimizer: Adam
+    decay_type: NoamDecay
+    decay_params:
+        model_dim: 512
+        warmup_steps: 10000 
+    
+    learning_rate: 0.1
+    
+eval:
+    external_evaluators: bleu
+    early_stopping:
+        metric: bleu
+        min_imporvement: 0.05
+        steps: 8
+
+train:
+    batch_size: 64
+    batch_type: examples
+    save_checkpoint_steps: 5000
+    keep_checkpoint_max: 10
