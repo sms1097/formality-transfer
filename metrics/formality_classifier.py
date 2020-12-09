@@ -2,13 +2,13 @@ import pickle
 import tensorflow as tf
 import numpy as np
 from tensorflow.keras.preprocessing.sequence import pad_sequences
-
+from nltk.tokenize.casual import TweetTokenizer
 
 class FormalityClassifier:
     def __init__(self):
         with open('metrics/formality-misc/formality-tokenizer.pickle', 'rb') as handle:
             self.tokenizer = pickle.load(handle)
-        
+        self.tweeter = TweetTokenizer()
         self.vocab_size = len(self.tokenizer.word_index) + 1
         
         self.model = tf.keras.Sequential([
@@ -28,8 +28,10 @@ class FormalityClassifier:
         
     def _tokenize(self, corpus):
         """ Tokenize data and pad sequences """
-
-        seqs = self.tokenizer.texts_to_sequences(corpus)
+        
+        process_seq = lambda seq: '<start> ' + ' '.join(self.tweeter.tokenize(seq)) + ' <end>'
+        x = [process_seq(seq) for seq in corpus]
+        seqs = self.tokenizer.texts_to_sequences(x)
         padded_seqs = pad_sequences(seqs, padding='post')
 
         return padded_seqs,
