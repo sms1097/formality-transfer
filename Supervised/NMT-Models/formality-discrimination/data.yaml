@@ -1,0 +1,27 @@
+model_dir: back-translate/
+
+data: 
+    train_features_file: Data/if_discrim_train.txt
+    train_labels_file: Data/f_discrim_train.txt
+    eval_features_file: Data/informal-val.txt
+    eval_labels_file: Data/formal-val.txt
+    source_vocabulary: Data/informal-vocab.txt
+    target_vocabulary: Data/formal-vocab.txt
+   
+params:
+    beam_width: 10
+
+
+eval:
+    steps: 250 
+    external_evaluators: bleu
+    early_stopping:
+        metric: bleu
+        min_imporvement: 0.05
+        steps: 8
+
+train:
+    save_checkpoints_steps: 2000
+    keep_checkpoint_max: 10
+    average_last_checkpoints: 10
+    max_step: 25000
