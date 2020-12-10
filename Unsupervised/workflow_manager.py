@@ -42,8 +42,8 @@ class Encoder(tf.keras.Model):
         output, h_f, _, h_b, _ = self.lstm_1(x, initial_state=hidden_state)
 
         return output, h_f, h_b 
-    
-    
+
+
 class GlobalAttention(tf.keras.layers.Layer):
     """
     This is called GlobalAttention since that's what
@@ -86,7 +86,7 @@ class GlobalAttention(tf.keras.layers.Layer):
 
         return context, attention_weights
 
-    
+
 class Decoder(tf.keras.Model):
     def __init__(self, vocab_size, embedding_dim, attention_units, 
                  decoder_units):
@@ -125,25 +125,45 @@ class Decoder(tf.keras.Model):
         return x, h_f, attention_weights
 
     
-def Discriminator(vocab_size, embedding_dim, weights):
-    return tf.keras.Sequential([
-        tf.keras.layers.Embedding(vocab_size, EMBEDDING_DIM, weights=[weights], mask_zero=True),
-        tf.keras.layers.Dropout(0.8),  
-        tf.keras.layers.Bidirectional(tf.keras.layers.LSTM(1024, return_sequences=True)),
-        tf.keras.layers.Bidirectional(tf.keras.layers.LSTM(1024)),
-        tf.keras.layers.Dropout(0.8), 
-        tf.keras.layers.Flatten(),
-        tf.keras.layers.Dense(128, activation="relu"),
-        tf.keras.layers.Dropout(0.5),
-        tf.keras.layers.Dense(2, activation='softmax')
-    ])
+class Discriminator(tf.keras.Model):
+    def __init__(self, vocab_size, embedding_dim, weights):
+        super(Discriminator, self).__init__()
+        self.embedding = tf.keras.layers.Embedding(vocab_size, EMBEDDING_DIM, 
+                                                   weights=[weights], mask_zero=True)
+        self.reg1 = tf.keras.layers.Dropout(0.8)
+        self.lstm1 = tf.keras.layers.Bidirectional(
+            tf.keras.layers.LSTM(1024, return_sequences=True)
+        )
+        self.lstm2 = tf.keras.layers.Bidirectional(
+            tf.keras.layers.LSTM(1024)
+        )
+        self.reg2 = tf.keras.layers.Dropout(0.8)
+        self.flatten = tf.keras.layers.Flatten()
+        self.dense1 = tf.keras.layers.Dense(128, activation="relu")
+        self.dense2 = tf.keras.layers.Dropout(0.5)
+        self.opt = tf.keras.layers.Dense(1)
 
+    def call(self, x, training=False):
+        x = self.embedding(x)
+        x = self.reg1(x, training=training)
+        
+        x = self.lstm1(x)
+        x = self.lstm2(x)
+        
+        x = self.reg2(x, training=training)
+        x = self.flatten(x)
+        
+        x = self.dense2(self.dense1(x))
+        return self.opt(x)
+        
+        
 def tokenize(corpus, tokenizer=None, maxlen=None):
     """ Tokenize data and pad sequences """
     if not tokenizer: 
         tokenizer = Tokenizer(filters='', 
                               oov_token='<OOV>',
-                              lower=False)
+                              lower=True,
+                              num_words=5000)
         tokenizer.fit_on_texts(corpus)
         
     seqs = tokenizer.texts_to_sequences(corpus)
@@ -173,15 +193,25 @@ def load_and_tokenize(BASE_PATH):
     
     ## process data
     process = lambda seq: '<start> ' + ' '.join(tok.tokenize(seq)) + ' <end>'
+    
     f_corpus = [process(seq) for seq in formal.split('\n')]
     if_corpus = [process(seq) for seq in informal.split('\n')]
 
     f_holdout = [process(seq) for seq in formal_holdout.split('\n')]
     if_holdout = [process(seq) for seq in informal_holdout.split('\n')]
+    
+    f_val = f_holdout[2000:]
+    if_val = if_holdout[2000:]
+    
+    f_holdout = f_holdout[:2000]
+    if_holdout = if_holdout[:2000]
 
     ## Tokenize
     input_train, input_tokenizer = tokenize(if_corpus)
     target_train, target_tokenizer = tokenize(f_corpus)
+    
+    input_val, _ = tokenize(if_val, input_tokenizer)
+    target_val, _ = tokenize(f_val, target_tokenizer)
     
     input_test, _ = tokenize(if_holdout, input_tokenizer)
     target_test, _ = tokenize(f_holdout, target_tokenizer)
@@ -194,19 +224,19 @@ def load_and_tokenize(BASE_PATH):
 
     train = tf.data.Dataset.from_tensor_slices((input_train, target_train)).shuffle(buffer_size)
     train = train.batch(BATCH_SIZE, drop_remainder=True)
-
-    test = tf.data.Dataset.from_tensor_slices((input_test, target_test)).batch(1)
+    
+    val = tf.data.Dataset.from_tensor_slices((input_val, target_val)).batch(len(f_val))
+    test = tf.data.Dataset.from_tensor_slices((input_test, target_test)).batch(BATCH_SIZE)
+    
     context = {
         'input_tokenizer': input_tokenizer,
         'target_tokenizer': target_tokenizer,
-        'input_vocab_size': input_vocab_size, 
-        'embedding_dim:': EMBEDDING_DIM,
-        
+        'input_vocab_size': input_vocab_size,
+        'target_vocab_size': target_vocab_size,
+        'steps_per_epoch': steps_per_epoch
     }
-    return train, test, context
-
-def load_discriminator_data(BASE_PATH):
     
+    return train, val, test, context
 
 def embedding_matrix(tokenizer, vocab_size, base_path):
     embeddings_index = {}
