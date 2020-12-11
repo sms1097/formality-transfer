@@ -12,8 +12,8 @@ from tensorflow.keras.preprocessing.text import Tokenizer
 from tensorflow.keras.preprocessing.sequence import pad_sequences
 
     
-BATCH_SIZE = 64
-EMBEDDING_DIM = 200
+BATCH_SIZE = 32
+EMBEDDING_DIM = 50
 
 class Encoder(tf.keras.Model):
     def __init__(self, vocab_size, embedding_dim, encoder_units, weight_matrix):
@@ -31,6 +31,7 @@ class Encoder(tf.keras.Model):
                 bias_regularizer=tf.keras.regularizers.l2(0.01)
             )
         )
+#         self.latent = tf.keras.layers.Dense(256)
 
     def call(self, x, hidden_state):
         """Shove into latent space"""
@@ -41,9 +42,42 @@ class Encoder(tf.keras.Model):
         # h_f, h_b shapes: (batch_size x encoder_units)
         output, h_f, _, h_b, _ = self.lstm_1(x, initial_state=hidden_state)
 
-        return output, h_f, h_b 
+        return output, h_f, h_b
 
+    
+class EncoderAuto(tf.keras.Model):
+    def __init__(self, vocab_size, embedding_dim, 
+                 encoder_units, weight_matrix, latent_dim):
+        super(EncoderAuto, self).__init__()
+        self.embedding = tf.keras.layers.Embedding(vocab_size, 
+                                                   embedding_dim,
+                                                   weights=[weight_matrix])
+        self.lstm_1 = tf.keras.layers.Bidirectional(
+            tf.keras.layers.LSTM(
+                encoder_units,
+                return_sequences=False,
+                kernel_regularizer=tf.keras.regularizers.l2(0.01),
+                recurrent_regularizer=tf.keras.regularizers.l2(0.01),
+                bias_regularizer=tf.keras.regularizers.l2(0.01)
+            )
+        )
+        
+        self.dense = tf.keras.layers.Dense(latent_dim)
 
+    def call(self, x, hidden_state):
+        """Shove into latent space"""
+        # x shape: (batch_size x max_length x embedding_dim)
+        x = self.embedding(x)
+
+        # output shape: (batch_size x max_length x 2 * encoder_units)
+        # h_f, h_b shapes: (batch_size x encoder_units)
+        output = self.lstm_1(x, initial_state=hidden_state)
+        
+        output = self.dense(output)
+        
+        return output
+
+        
 class GlobalAttention(tf.keras.layers.Layer):
     """
     This is called GlobalAttention since that's what
@@ -122,14 +156,102 @@ class Decoder(tf.keras.Model):
         # x shape: (batch_size, vocab)
         x = self.opt(output)
 
-        return x, h_f, attention_weights
+        return x, h_f
 
+    
+class DecoderAuto(tf.keras.Model):
+    def __init__(self, vocab_size, embedding_dim, attention_units, 
+                 decoder_units):
+        super(DecoderAuto, self).__init__()
+
+        self.embedding = tf.keras.layers.Embedding(vocab_size, embedding_dim)
+        self.lstm_1 = tf.keras.layers.LSTM(decoder_units,
+                                           return_sequences=True,
+                                           return_state=False)
+        self.lstm_2 = tf.keras.layers.LSTM(decoder_units,
+                                           return_sequences=True,
+                                           return_state=False)
+        self.flatten = tf.keras.layers.Flatten()
+        self.opt = tf.keras.layers.Dense(vocab_size)
+
+    def call(self, x, encoder_output):
+        # x shape: (batch_size, 1, embedding_dim)
+        x = self.embedding(x)
+
+        # x shape: (batch_size, 1, embedding_dim + 2 * encoder_units)
+
+        # output shape: (batch_size, 1, decoder_units)
+        # this shape is only important for expanding decoder depth
+        output = self.lstm_1(x)
+        output = self.lstm_2(output)
+
+        # flatten to feed into opt
+        # output shape: (batch_size, hidden_size)
+        output = self.flatten(output)
+
+        # get logits
+        # x shape: (batch_size, vocab)
+        x = self.opt(output)
+
+        return x
+  
+    
+class AttentionalEncoderDecoder(tf.keras.Model):
+    def __init__(self, input_vocab_size, target_vocab_size, 
+                 embedding_dim, attention_units, decoder_units,
+                 encoder_units, encoder_E_weights):
+        super(AttentionalEncoderDecoder, self).__init__()
+        self.encoder = Encoder(input_vocab_size, embedding_dim, 
+                               encoder_units, encoder_E_weights)
+        self.decoder = Decoder(target_vocab_size, embedding_dim,
+                               attention_units, decoder_units)
+        
+    def call(self, inpt, init_state, dec_input, decoder_hidden_forward=None):
+        enc_output, enc_h_f, enc_h_b = self.encoder(inpt, init_state)
+        
+        if decoder_hidden_forward is None:
+            dec_h_f = enc_h_f
+        else: 
+            dec_h_f = decoder_hidden_forward
+        
+        predictions, dec_h_f, _ = self.decoder(dec_input, dec_h_f,
+                                        enc_h_b, enc_output)
+        
+        return predictions, dec_h_f        
+
+    
+class Generator(tf.keras.Model):
+    def __init__(self, generator_units, vocab_size, 
+                 embedding_dim):
+        super(Generator, self).__init__()
+        self.embedding = tf.keras.layers.Embedding(vocab_size, 
+                                                   embedding_dim)
+        self.lstm1 = tf.keras.layers.LSTM(
+            generator_units, return_sequences=True
+        )
+        self.lstm2 = tf.keras.layers.LSTM(
+            generator_units, return_sequences=True
+        )
+        self.lstm3 = tf.keras.layers.LSTM(
+            generator_units, return_sequences=True
+        )
+        
+    def call(self, x):
+#         x = tf.expand_dims(x, axis=1)
+        x = self.embedding(x)
+        # x shape: BATCH_SIZE x generator_units
+        x = self.lstm1(x)
+        x = self.lstm2(x)
+        x = self.lstm3(x)
+        
+        return x   
+    
     
 class Discriminator(tf.keras.Model):
     def __init__(self, vocab_size, embedding_dim, weights):
         super(Discriminator, self).__init__()
-        self.embedding = tf.keras.layers.Embedding(vocab_size, EMBEDDING_DIM, 
-                                                   weights=[weights], mask_zero=True)
+#         self.embedding = tf.keras.layers.Embedding(vocab_size, EMBEDDING_DIM, 
+#                                                    weights=[weights])
         self.reg1 = tf.keras.layers.Dropout(0.8)
         self.lstm1 = tf.keras.layers.Bidirectional(
             tf.keras.layers.LSTM(1024, return_sequences=True)
@@ -144,7 +266,8 @@ class Discriminator(tf.keras.Model):
         self.opt = tf.keras.layers.Dense(1)
 
     def call(self, x, training=False):
-        x = self.embedding(x)
+#         x = self.embedding(x)
+#         print(x.shape)
         x = self.reg1(x, training=training)
         
         x = self.lstm1(x)
@@ -159,11 +282,9 @@ class Discriminator(tf.keras.Model):
         
 def tokenize(corpus, tokenizer=None, maxlen=None):
     """ Tokenize data and pad sequences """
-    if not tokenizer: 
-        tokenizer = Tokenizer(filters='', 
-                              oov_token='<OOV>',
-                              lower=True,
-                              num_words=5000)
+    if tokenizer is None: 
+        tokenizer = Tokenizer(filters='!"#$%&()*+,-./:;=?@[\\]^_`{|}~\t\n', 
+                              oov_token='<OOV>')
         tokenizer.fit_on_texts(corpus)
         
     seqs = tokenizer.texts_to_sequences(corpus)
@@ -179,7 +300,7 @@ def load_and_tokenize(BASE_PATH):
     FORMAL_PATH_HOLDOUT = '{}/Supervised Data/Entertainment_Music/S_Formal_EM_ValTest.txt'.format(BASE_PATH)
     INFORMAL_PATH_HOLDOUT = '{}/Supervised Data/Entertainment_Music/S_Informal_EM_ValTest.txt'.format(BASE_PATH)
 
-    EMBEDDING_PATH = '{}/glove.6B.200d.txt'.format(BASE_PATH)
+    EMBEDDING_PATH = '{}/glove.6B.50d.txt'.format(BASE_PATH)
     
     ## Open Data
     formal = open(FORMAL_PATH_TRAIN).read()
@@ -196,7 +317,7 @@ def load_and_tokenize(BASE_PATH):
     
     f_corpus = [process(seq) for seq in formal.split('\n')]
     if_corpus = [process(seq) for seq in informal.split('\n')]
-
+    
     f_holdout = [process(seq) for seq in formal_holdout.split('\n')]
     if_holdout = [process(seq) for seq in informal_holdout.split('\n')]
     
@@ -241,7 +362,7 @@ def load_and_tokenize(BASE_PATH):
 def embedding_matrix(tokenizer, vocab_size, base_path):
     embeddings_index = {}
     embedding_dim = EMBEDDING_DIM
-    embedding_path = '{}/glove.6B.200d.txt'.format(base_path)
+    embedding_path = '{}/glove.6B.50d.txt'.format(base_path)
     with open(embedding_path) as f:
         for line in f:
             values = line.split()
