@@ -235,6 +235,9 @@ class Generator(tf.keras.Model):
         self.lstm3 = tf.keras.layers.LSTM(
             generator_units, return_sequences=True
         )
+        self.lstm4 = tf.keras.layers.LSTM(
+            generator_units, return_sequences=True
+        )
         
     def call(self, x):
 #         x = tf.expand_dims(x, axis=1)
@@ -243,6 +246,7 @@ class Generator(tf.keras.Model):
         x = self.lstm1(x)
         x = self.lstm2(x)
         x = self.lstm3(x)
+        x = self.lstm4(x)
         
         return x   
     
