@@ -4,7 +4,7 @@ In order to run this code authorization from Yahoo to access the L6 corpus is ne
 and authorization must be shown to Joel Tetreault. Full details can be found [here](https://github.com/raosudha89/GYAFC-corpus)
 
 ## CS 880
-### [Vanilla Encoder-Decoder](supervised/baselines/Vanilla Encoder Decoder.ipynb)
+### [Vanilla Encoder-Decoder](supervised/baselines/'Vanilla Encoder Decoder.ipynb')
 This is a basic Encoder-Decoder model with no attention.
 
 ### [RNN with Global Attention](https://github.com/sms1097/formality-transfer/blob/master/Supervised/Custom%20Implementation/Global%20Attention%20Model.ipynb)
