@@ -12,3 +12,8 @@ This is the global attention implementaiton.
 
 ### [CRF POS with Global Attention](https://github.com/sms1097/formality-transfer/blob/master/Supervised/ED%20Experiments/CRF%20POS%20Concat.ipynb)
 This is the parallel encoder model with global attention.
+
+## Senior Project
+This will be available by Saturday 11/12. 
+
+While all of the code is available, it would be in your best interest to give me until tomorrow to organize it!
