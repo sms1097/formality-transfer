@@ -24,7 +24,10 @@ As mentioned in the paper this model was not used since the requirements for tra
 This is the folder that contains configuration for the  baseline transformer model. 
 
 #### [Formality Discrimination](https://github.com/sms1097/formality-transfer/tree/master/semi-supervised/Formality%20Discrimination)
-This folder contains all fo the work done on formaltiy transfer. [Formality Discrimination](https://github.com/sms1097/formality-transfer/blob/master/semi-supervised/Formality%20Discrimination/Formality%20Discrimination.ipynb) is the notebook where all the data was split up before feeding into google translate. [Formality Classifier](https://github.com/sms1097/formality-transfer/blob/master/semi-supervised/Formality%20Discrimination/Formality%20Classifier.ipynb) is where the classifier was trained to be able to detect formal sequences and the augmented training set was determined. The folder [formality-discrimination](https://github.com/sms1097/formality-transfer/tree/master/semi-supervised/Formality%20Discrimination/formality-discrimination) contains the OpenNMT-tf model configuration.
+This folder contains all fo the work done on formaltiy transfer. 
+- [Formality Discrimination](https://github.com/sms1097/formality-transfer/blob/master/semi-supervised/Formality%20Discrimination/Formality%20Discrimination.ipynb) is the notebook where all the data was split up before feeding into google translate. 
+- [Formality Classifier](https://github.com/sms1097/formality-transfer/blob/master/semi-supervised/Formality%20Discrimination/Formality%20Classifier.ipynb) is where the classifier was trained to be able to detect formal sequences and the augmented training set was determined. 
+- [formality-discrimination](https://github.com/sms1097/formality-transfer/tree/master/semi-supervised/Formality%20Discrimination/formality-discrimination) is the folder that contains the OpenNMT-tf model configuration.
 
 #### [Backtranslation](https://github.com/sms1097/formality-transfer/tree/master/semi-supervised/backtranslation)
 Two folders are here: one for the back translation model and one for the transformer with the augmented data
