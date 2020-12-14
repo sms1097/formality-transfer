@@ -1,10 +1,6 @@
 # Formality Transfer
 This repo contains all of the work for my senior project and class project for CS 880. In order to run this code with the GYAFC data set authorization from Yahoo is needed to access the L6 corpus, and then authorization must be shown to Joel Tetreault. Full details can be found [here](https://github.com/raosudha89/GYAFC-corpus).
 
-
-## [Results](https://github.com/sms1097/formality-transfer/blob/master/Results%20Analysis.ipynb)
-All results for both projets are in this notebook.
-
 ## CS 880
 #### [Vanilla Encoder-Decoder](https://github.com/sms1097/formality-transfer/blob/master/supervised/Baselines/Vanilla%20Encoder%20Decoder.ipynb)
 This is a basic Encoder-Decoder model with no attention.
@@ -71,4 +67,6 @@ This is what is imported into the results notebook to measure formality for test
 #### [Learned Ensemble Decoder](https://github.com/sms1097/formality-transfer/blob/master/supervised/Multi-Encoder%20RNN/Rule%20Ensemble.ipynb)
 In the experiments with training two encoders in parallel, I experimented with training two full encoder-decoder networks in parallel and then trying to learn a weighted ensemble of both networks. This was going to be used with the POS or rule asssited features. This ended up requiring too much memory to train and was never fully implemented.
 
+#### [Results](https://github.com/sms1097/formality-transfer/blob/master/Results%20Analysis.ipynb)
+All results for both projets are in this notebook.
 
