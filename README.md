@@ -1,10 +1,6 @@
 # Formality Transfer
 This repo contains all of the work for my senior project and class project for CS 880. In order to run this code with the GYAFC data set authorization from Yahoo is needed to access the L6 corpus, and then authorization must be shown to Joel Tetreault. Full details can be found [here](https://github.com/raosudha89/GYAFC-corpus).
 
-## CS 880
-#### [Vanilla Encoder-Decoder](https://github.com/sms1097/formality-transfer/blob/master/supervised/Baselines/Vanilla%20Encoder%20Decoder.ipynb)
-This is a basic Encoder-Decoder model with no attention.
-
 #### [RNN with Global Attention](https://github.com/sms1097/formality-transfer/blob/master/supervised/Baselines/Global%20Attention%20Model.ipynb)
 This is the global attention implementaiton.
 
@@ -39,6 +35,9 @@ Model configuration for a multi-column that feeds in sequences that are tagged w
 Configuration for model that takes the normal sequence and sequence cleaned by rules in parallel. 
 
 ### RNN Based Models
+#### [Vanilla Encoder-Decoder](https://github.com/sms1097/formality-transfer/blob/master/supervised/Baselines/Vanilla%20Encoder%20Decoder.ipynb)
+This is a basic Encoder-Decoder model with no attention.
+
 #### [RNN with Global Attention](https://github.com/sms1097/formality-transfer/blob/master/supervised/Baselines/Global%20Attention%20Model.ipynb)
 This is an Encoder/Decoder RNN with a global attention mechanism. 
 
