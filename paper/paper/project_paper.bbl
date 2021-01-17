@@ -1,0 +1,75 @@
+\begin{thebibliography}{10}
+
+\bibitem{yahooaaa}
+Yahoo! webscope. 2007. yahoo! webscope dataset l6 corpus.
+
+\bibitem{parallelencoders}
+M.~X. Chen, O.~Firat, A.~Bapna, M.~Johnson, W.~Macherey, G.~Foster, L.~Jones,
+  N.~Parmar, M.~Schuster, Z.~Chen, Y.~Wu, and M.~Hughes.
+\newblock The best of both worlds: Combining recent advances in neural machine
+  translation, 2018.
+
+\bibitem{ganpaper}
+D.~Donahue and A.~Rumshisky.
+\newblock Adversarial text generation without reinforcement learning.
+\newblock {\em CoRR}, abs/1810.06640, 2018.
+
+\bibitem{backtranslation}
+S.~Edunov, M.~Ott, M.~Auli, and D.~Grangier.
+\newblock Understanding back-translation at scale.
+\newblock {\em CoRR}, abs/1808.09381, 2018.
+
+\bibitem{pictransfer}
+L.~A. Gatys, A.~S. Ecker, and M.~Bethge.
+\newblock A neural algorithm of artistic style.
+\newblock {\em CoRR}, abs/1508.06576, 2015.
+
+\bibitem{li2018delete}
+J.~Li, R.~Jia, H.~He, and P.~Liang.
+\newblock Delete, retrieve, generate: A simple approach to sentiment and style
+  transfer, 2018.
+
+\bibitem{pang2019daunting}
+R.~Y. Pang.
+\newblock The daunting task of real-world textual style transfer
+  auto-evaluation, 2019.
+
+\bibitem{papineni-etal-2002-bleu}
+K.~Papineni, S.~Roukos, T.~Ward, and W.-J. Zhu.
+\newblock {B}leu: a method for automatic evaluation of machine translation.
+\newblock In {\em Proceedings of the 40th Annual Meeting of the Association for
+  Computational Linguistics}, pages 311--318, Philadelphia, Pennsylvania, USA,
+  July 2002. Association for Computational Linguistics.
+
+\bibitem{chrf}
+M.~Popovi{\'c}.
+\newblock chr{F}: character n-gram {F}-score for automatic {MT} evaluation.
+\newblock In {\em Proceedings of the Tenth Workshop on Statistical Machine
+  Translation}, pages 392--395, Lisbon, Portugal, Sept. 2015. Association for
+  Computational Linguistics.
+
+\bibitem{rao2018dear}
+S.~Rao and J.~Tetreault.
+\newblock Dear sir or madam, may i introduce the gyafc dataset: Corpus,
+  benchmarks and metrics for formality style transfer, 2018.
+
+\bibitem{AAYN}
+A.~Vaswani, N.~Shazeer, N.~Parmar, J.~Uszkoreit, L.~Jones, A.~N. Gomez,
+  L.~Kaiser, and I.~Polosukhin.
+\newblock Attention is all you need.
+\newblock {\em CoRR}, abs/1706.03762, 2017.
+
+\bibitem{rule-harnessing}
+Y.~Wang, Y.~Wu, L.~Mou, Z.~Li, and W.~Chao.
+\newblock Harnessing pre-trained neural networks with rules for formality style
+  transfer.
+\newblock In {\em Proceedings of the 2019 Conference on Empirical Methods in
+  Natural Language Processing and the 9th International Joint Conference on
+  Natural Language Processing (EMNLP-IJCNLP)}, pages 3573--3578, Hong Kong,
+  China, Nov. 2019. Association for Computational Linguistics.
+
+\bibitem{paralleldataaug}
+Y.~Zhang, T.~Ge, and X.~Sun.
+\newblock Parallel data augmentation for formality style transfer, 2020.
+
+\end{thebibliography}

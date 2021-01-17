@@ -1,0 +1,18 @@
+\BOOKMARK [1][-]{section.1}{Introduction}{}% 1
+\BOOKMARK [1][-]{section.2}{Supervised Models}{}% 2
+\BOOKMARK [2][-]{subsection.2.1}{Rules with Parallel Encoders}{section.2}% 3
+\BOOKMARK [2][-]{subsection.2.2}{Part of Speech Tagging with Parallel Encoders}{section.2}% 4
+\BOOKMARK [1][-]{section.3}{Semi-Supervised Models}{}% 5
+\BOOKMARK [2][-]{subsection.3.1}{Formality Discrimination}{section.3}% 6
+\BOOKMARK [2][-]{subsection.3.2}{Backtranslation}{section.3}% 7
+\BOOKMARK [1][-]{section.4}{Unsupervised Models}{}% 8
+\BOOKMARK [2][-]{subsection.4.1}{Delete, Retrieve, Generate}{section.4}% 9
+\BOOKMARK [1][-]{section.5}{Results}{}% 10
+\BOOKMARK [2][-]{subsection.5.1}{Evaluation Metrics}{section.5}% 11
+\BOOKMARK [2][-]{subsection.5.2}{Methodology in Training}{section.5}% 12
+\BOOKMARK [2][-]{subsection.5.3}{Model Results}{section.5}% 13
+\BOOKMARK [2][-]{subsection.5.4}{Discussion of Metrics}{section.5}% 14
+\BOOKMARK [1][-]{section.6}{Future Work}{}% 15
+\BOOKMARK [2][-]{subsection.6.1}{Data Augmentation with Seq2Seq GAN}{section.6}% 16
+\BOOKMARK [2][-]{subsection.6.2}{Entity Transfer Metric}{section.6}% 17
+\BOOKMARK [1][-]{section.7}{Conclusion}{}% 18
