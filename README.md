@@ -20,7 +20,7 @@ This is an Encoder/Decoder RNN with Bahdanau attention. The big difference betwe
 - [RNN POS Assisted with Concat Global Attention](https://github.com/sms1097/formality-transfer/blob/master/supervised/Multi-Encoder%20RNN/CRF%20POS%20Concat.ipynb)
 This is an Encoder/Decoder model that uses multiple encoders and conatenates hidden states and encoder output. Then uses global attention through on the new hidden state and encoder output.
 
-## [Formality Discrimination](https://github.com/sms1097/formality-transfer/tree/master/semi-supervised/Formality%20Discrimination)
+## Formality Discrimination
 [Zhang et al (2020)](https://arxiv.org/pdf/2005.07522.pdf) proposed formality discrimination, which  
 augments data through a round trip translation to a pivot language. In this implem-entation 
 the training data is translated 
@@ -31,7 +31,7 @@ formal sequences which can be used as additional data.
 - [Formality Classifier](https://github.com/sms1097/formality-transfer/blob/master/semi-supervised/Formality%20Discrimination/Formality%20Classifier.ipynb) is where the classifier was trained to be able to detect formal sequences and the augmented training set was determined. 
 - [formality-discrimination](https://github.com/sms1097/formality-transfer/tree/master/semi-supervised/Formality%20Discrimination/formality-discrimination) is the folder that contains the OpenNMT-tf model configuration.
 
-## [Backtranslation](https://github.com/sms1097/formality-transfer/tree/master/semi-supervised/backtranslation)
+## Backtranslation
 Backtranslation augments data through a reverse training process. This process starts by 
 training a machine translation system to do the reverse task of converting formal sequences 
 to informal sequences. Modifications to training were performed using techniques discussed in 
@@ -52,7 +52,6 @@ was what was adopted in the training of the back translation model used in this 
 - [translate](https://github.com/sms1097/formality-transfer/tree/master/semi-supervised/backtranslation/translate) contains the model configuration for translating with the extra data from back translation.
 
 ## Rule-Assisted
-
 The approach here is similar to ass-isting a formality transfer model
 as shown in [Wang et al. (2019)](https://www.aclweb.org/anthology/D19-1365.pdf).
 Their approach included using rule pre-processing on input sequences and feeding 
@@ -71,7 +70,7 @@ is implemented, in addition to averaging the hidden states and encoder output.
 
 ![Rule Assisted Paradigm](https://github.com/sms1097/formality-transfer/blob/master/paper/Diagrams/Rule%20Concat.png)
 
-#### POS Assisted
+## POS Assisted
 This model follows the same paradigm as the rule based encoder, except using part of 
 speech labels for the sequence instead of rule pre-processed sequences. A CRF was trained 
 to detect parts of speech on a separate corpus and used 
