@@ -147,6 +147,6 @@ This is what is imported into the results notebook to measure formality for test
 ### [Learned Ensemble Decoder](https://github.com/sms1097/formality-transfer/blob/master/supervised/Multi-Encoder%20RNN/Rule%20Ensemble.ipynb)
 In the experiments with training two encoders in parallel, I experimented with training two full encoder-decoder networks in parallel and then trying to learn a weighted ensemble of both networks. This was going to be used with the POS or rule asssited features. This ended up requiring too much memory to train and was never fully implemented.
 
-#### [Results](https://github.com/sms1097/formality-transfer/blob/master/Results%20Analysis.ipynb)
+### [Results](https://github.com/sms1097/formality-transfer/blob/master/Results%20Analysis.ipynb)
 All results for both projets are in this notebook.
 
