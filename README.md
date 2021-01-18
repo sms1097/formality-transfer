@@ -84,7 +84,7 @@ states and one with averaged hidden states.
 - [RNN Based](https://github.com/sms1097/formality-transfer/blob/master/supervised/Multi-Encoder%20RNN/CRF%20POS%20Avg.ipynb) 
 
 ## Other files
-#### [GAN experimentation](https://github.com/sms1097/formality-transfer/tree/master/semi-supervised/GANs) 
+### [GAN experimentation](https://github.com/sms1097/formality-transfer/tree/master/semi-supervised/GANs) 
 
 ![GAN](https://github.com/sms1097/formality-transfer/blob/master/paper/Diagrams/GAN%20Generation.png)
 
@@ -138,13 +138,13 @@ that produced sequences of high enough quality for the generation to be worth
 pursuing. This approach might also require expanding the data set with the other half
 of the supervised corpus. 
 
-#### [Perplexity Metric](https://github.com/sms1097/formality-transfer/blob/master/metrics/Formality%20Benchmarking.ipynb)
+### [Perplexity Metric](https://github.com/sms1097/formality-transfer/blob/master/metrics/Formality%20Benchmarking.ipynb)
 This was an early stage idea about how to get a good formality metric. The idea was to train a language model and measure how close the perplexity of output sequences were to a test set. This metric was abandoned for the other formality classifier.
 
-#### [Formality classifer wrapper](https://github.com/sms1097/formality-transfer/blob/master/metrics/formality_classifier.py)
+### [Formality classifer wrapper](https://github.com/sms1097/formality-transfer/blob/master/metrics/formality_classifier.py)
 This is what is imported into the results notebook to measure formality for test data.
 
-#### [Learned Ensemble Decoder](https://github.com/sms1097/formality-transfer/blob/master/supervised/Multi-Encoder%20RNN/Rule%20Ensemble.ipynb)
+### [Learned Ensemble Decoder](https://github.com/sms1097/formality-transfer/blob/master/supervised/Multi-Encoder%20RNN/Rule%20Ensemble.ipynb)
 In the experiments with training two encoders in parallel, I experimented with training two full encoder-decoder networks in parallel and then trying to learn a weighted ensemble of both networks. This was going to be used with the POS or rule asssited features. This ended up requiring too much memory to train and was never fully implemented.
 
 #### [Results](https://github.com/sms1097/formality-transfer/blob/master/Results%20Analysis.ipynb)
