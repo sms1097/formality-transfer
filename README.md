@@ -85,6 +85,7 @@ states and one with averaged hidden states.
 
 ## Other files
 #### [GAN experimentation](https://github.com/sms1097/formality-transfer/tree/master/semi-supervised/GANs) 
+![GAN](https://github.com/sms1097/formality-transfer/blob/master/paper/Diagrams/GAN%20Generation.png)
 This approach is based on ideas expressed in 
 [Donahue et al (2018)](https://arxiv.org/pdf/1810.06640.pdf). A Seq2Seq model is trained 
 using available parallel data until minimally acceptable results are achieved.
